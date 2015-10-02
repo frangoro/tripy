@@ -18,85 +18,262 @@
     under the License.
 -->
 <html lang="es_ES">
-    <head>
-        <!--[if lt IE 9]>
-  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <head>
+      <!--[if lt IE 9]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
-        <!--
-        Customize this policy to fit your own app's needs. For more guidance, see:
-            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
-        Some notes:
-            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
-            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
-            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
-                * Enable inline JS: add 'unsafe-inline' to default-src
-        -->
-        <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">-->
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-        <meta charset="utf-8">
-        <link rel="stylesheet" type="text/css" href="css/index.css">
-        <title>Tripy</title>
-    </head>
-    <body>
-        <header>
-            <h1>Tripy</h1>
-            <h2>I pay and let's go!</h2>
-        </header>
-        <nav>
-            <a href="#">Gastos</a>
-            <a href="#">Deudas</a>
-            <a href="#">Estadísticas</a>
-            <a href="#">Participantes</a>
-            <a href="#">Viajes</a>
-        </nav>
-        <div class="contenido">
-            <div class="tabla">
-            <table id="myTable">
-                <caption>Gastos</caption>
-                <thead>
-                <tr><th>Concepto</th><th>Importe</th><th>Persona</th><th>Fecha</th></tr>
-                </thead>
-            </table>
-            </div>
-            <div class="formulario">
-            <form id="newGasto">
-                Concepto: <br><input type="text" name="concepto"><br>
-                Importe: <br><input type="text" name="importe"><br>
-                Persona: <br><input list="personas" name="persona">
-                <datalist id="personas">
-                    <option value="Fran"></option>
-                    <option value="Irene"></option>
-                    <option value="Merche"></option>
-                </datalist><br>
-                <input type="button" value="Añadir" onclick="addGasto()"></input>
-                <input type="reset" value="Limpiar" />
-            </form>
-            </div>
-            <div>
-                <h3>Deudas</h3>
-                <ul id="deudasList" style="list-style-type:none">
-                  <li>Fran --> Pepe: 20€</li>
-                  <li>Luis --> Alberto: 15€</li>
-                </ul>
-            </div>
-            </div>
-        <!--<div class="app">
-            <div id="deviceready" class="blink">
-                <p class="event listening">Conectando al dispositivo</p>
-                <p class="event received">Listo!</p>
-            </div>
-        </div>-->
-        <footer>
-            <address>
-                Written by <a href="mailto:frangoro@gmail.com">frangoro &copy;</a>
-                Ubrique (Spain)
-            </address>
-        </footer>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript" src="js/gastos.js"></script>
-        <script type="text/javascript" src="js/deudas.js"></script>
-    </body>
+    <!--
+    Customize this policy to fit your own app's needs. For more guidance, see:
+        https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+    Some notes:
+        * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+        * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+        * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+            * Enable inline JS: add 'unsafe-inline' to default-src
+    -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://ajax.googleapis.com data: gap: https://ssl.gstatic.com 'unsafe-eval' 'unsafe-inline'; style-src 'self' https://ajax.googleapis.com 'unsafe-inline'; media-src *">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <!-- Include jQuery Mobile stylesheets -->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
+    <link rel="stylesheet" type="text/css" href="css/tripy.css">
+    <!-- Include the jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include the jQuery Mobile library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+    <script src="cordova.js"></script>
+    <script src="js/index.js"></script> 
+    <script src="js/personas.js"></script> 
+    <script src="js/gastos.js"></script>
+    <script src="js/deudas.js"></script> 
+    <script src="js/eventos.js"></script> 
+    <title>Tripy</title>
+  </head>
+  <body>
+
+  <div data-role="page" id="pageEventos">
+  <div data-role="header" data-position="fixed">
+    <a href="#pageAbout"><img src="img/world.png" alt="Acerca de Tripy" 
+      title="Acerca de Tripy..." style="width:16px;height:16px;"></a>
+    <h1>Tripy</h1>
+      <a href="#setting" class="ui-btn ui-icon-gear ui-btn-icon-notext ">settings</a>
+    <div data-role="navbar">
+      <ul>
+        <li><a href="#" class="ui-btn-active ui-state-persist">Eventos</a></li>
+        <li><a href="#pagePersonas">Participantes</a></li>
+        <li><a href="#pageGastos">Pagos</a></li>
+        <li><a href="#pageDeudas">Deudas</a></li>
+        <li><a href="#pageEstadisticas">Estadísticas</a></li>
+      </ul>
+    </div>
+  </div>
+  <div data-role="main">
+      <h2>Mis Eventos</h2>
+      <ul data-role="listview" id="eventosList">
+      </ul>
+  </div>
+  <div data-role="footer">
+      <div data-role="controlgroup" data-type="horizontal" class="ui-btn-right">
+        <a href="#pageNewEvento" class="ui-btn ui-icon-plus ui-btn-icon-notext">plus</a>
+        <a href="#" class="ui-btn ui-icon-search ui-btn-icon-notext">search</a>
+      </div>
+  </div>
+  </div>
+  
+  <div data-role="page" id="pagePersonas">
+    <div data-role="header" data-position="fixed">
+      <a href="#pageAbout"><img src="img/world.png" alt="Acerca de Tripy" 
+      title="Acerca de Tripy..." style="width:16px;height:16px;"></a>
+      <h1>Tripy</h1>
+      <a href="#setting" class="ui-btn ui-icon-gear ui-btn-icon-notext ">settings</a>
+      <div data-role="navbar">
+        <ul>
+          <li><a href="#pageEventos">Eventos</a></li>
+          <li><a href="#" class="ui-btn-active ui-state-persist">Participantes</a></li>
+          <li><a href="#pageGastos">Pagos</a></li>
+          <li><a href="#pageDeudas">Deudas</a></li>
+          <li><a href="#pageEstadisticas">Estadísticas</a></li>
+        </ul>
+      </div>
+    </div>
+    <div data-role="main">
+      <h2>Participantes</h2>
+        <ul data-role="listview" id="participantesList">
+        <!--<li>
+          <a href="#"><img src="img/logo.png"><h3 class="listViewName">Pepito Grillo</h3><h3 class="listViewTotal">30€</h3></a>
+          <a href="#pageInfoParticipante" data-transition="pop" data-icon="info"></a> 
+        </li>-->
+      </ul>
+    </div>
+    <div data-role="footer">
+      <div data-role="controlgroup" data-type="horizontal" class="ui-btn-right">
+          <a href="#pageNewParticipante" class="ui-btn ui-icon-plus ui-btn-icon-notext">plus</a>
+          <a href="#" class="ui-btn ui-icon-search ui-btn-icon-notext">search</a>
+      </div>
+    </div>
+  </div>
+
+  <div data-role="page" id="pageGastos">
+    <div data-role="header" data-position="fixed">
+      <a href="#pageAbout"><img src="img/world.png" alt="Acerca de Tripy" 
+      title="Acerca de Tripy..." style="width:16px;height:16px;"></a>
+      <h1>Tripy</h1>
+        <a href="#setting" class="ui-btn ui-icon-gear ui-btn-icon-notext ">settings</a>
+      <div data-role="navbar">
+        <ul>
+          <li><a href="#pageEventos">Eventos</a></li>
+          <li><a href="#pagePersonas">Participantes</a></li>
+          <li><a href="#" class="ui-btn-active ui-state-persist">Pagos</a></li>
+          <li><a href="#pageDeudas">Deudas</a></li>
+          <li><a href="#pageEstadisticas">Estadísticas</a></li>
+        </ul>
+      </div>
+    </div>
+    <div data-role="main">
+      <table data-role="table" data-mode="columntoggle" class="ui-responsive" id="myTable">
+      <thead>
+        <tr><th>Concepto</th><th>Importe</th><th>Persona</th><th>Fecha</th></tr>
+      </thead>
+      <tbody>
+      </tbody>
+      </table>
+    </div>
+    <div data-role="footer">
+        <div data-role="controlgroup" data-type="horizontal" class="ui-btn-right">
+          <a href="#pageNewGasto" class="ui-btn ui-icon-plus ui-btn-icon-notext">plus</a>
+          <a href="#" class="ui-btn ui-icon-search ui-btn-icon-notext">search</a>
+        </div>
+    </div>
+  </div>
+
+  <div data-role="page" id="pageDeudas">
+    <div data-role="header" data-position="fixed">
+      <a href="#pageAbout"><img src="img/world.png" alt="Acerca de Tripy" 
+      title="Acerca de Tripy..." style="width:16px;height:16px;"></a>
+      <h1>Tripy</h1>
+        <a href="#setting" class="ui-btn ui-icon-gear ui-btn-icon-notext ">settings</a>
+      <div data-role="navbar">
+        <ul>
+          <li><a href="#pageEventos">Eventos</a></li>
+          <li><a href="#pagePersonas">Participantes</a></li>
+          <li><a href="#pageGastos">Pagos</a></li>
+          <li><a href="#" class="ui-btn-active ui-state-persist">Deudas</a></li>
+          <li><a href="#pageEstadisticas">Estadísticas</a></li>
+        </ul>
+      </div>
+    </div>
+    <div data-role="main">
+        <h2>Deudas</h2>
+        <ul data-role="listview" id="deudasList">
+        </ul>
+    </div>
+    <div data-role="footer">
+        <div data-role="controlgroup" data-type="horizontal" class="ui-btn-right">
+          <a href="#" class="ui-btn ui-icon-search ui-btn-icon-notext">search</a>
+        </div>
+    </div>
+  </div>
+
+  <div data-role="page" id="pageEstadisticas">
+  <div data-role="header" data-position="fixed">
+    <a href="#pageAbout"><img src="img/world.png" alt="Acerca de Tripy" 
+      title="Acerca de Tripy..." style="width:16px;height:16px;"></a>
+    <h1>Tripy</h1>
+      <a href="#setting" class="ui-btn ui-icon-gear ui-btn-icon-notext ">settings</a>
+    <div data-role="navbar">
+      <ul>
+        <li><a href="#pageEventos">Eventos</a></li>
+        <li><a href="#pagePersonas">Participantes</a></li>
+        <li><a href="#pageGastos">Pagos</a></li>
+        <li><a href="#pageDeudas">Deudas</a></li>
+        <li><a href="#" class="ui-btn-active ui-state-persist">Estadísticas</a></li>
+      </ul>
+    </div>
+  </div>
+  <div data-role="main">
+    <h2>Estadísticas</h2>
+    <ul data-role="listview">
+      <li></li>
+    </ul>
+  </div>
+  <div data-role="footer" data-position="fixed" data-fullscreen="false">
+      <div data-role="controlgroup" data-type="horizontal" class="ui-btn-right">
+      </div>
+  </div>
+  </div>
+
+  <div data-role="page" data-dialog="true" id="pageNewEvento">
+    <div data-role="header">
+      <h2>Añadir Evento</h2>
+    </div>
+    <div data-role="main" class="ui-content">
+    <form id="newEvento">
+      Título: <br><input type="text" name="titulo"><br>
+      Lugar: <br><input type="text" name="lugar"><br>
+      Presupuesto Inicial: <br><input type="number" name="presupuestoInicio" min="0" max="10000"><br>
+      Presupuesto Final: <br><input type="number" name="presupuestoFin" min="0" max="10000"><br>
+      <input type="button" value="Añadir" onclick="addEvento()"></input>
+      <input type="reset" value="Limpiar" />
+    </form>
+    </div>
+  </div>
+
+  <div data-role="page" data-dialog="true" id="pageInfoParticipante">
+    <div data-role="header">
+      <h2>Ficha Participante</h2>
+    </div>
+    <div data-role="main" class="ui-content">
+    </div>
+  </div>
+
+  <div data-role="page" data-dialog="true" id="pageNewParticipante">
+    <div data-role="header">
+      <h2>Añadir Participante</h2>
+    </div>
+    <div data-role="main" class="ui-content">
+    <form id="newPersona">
+      Nombre: <br><input type="text" name="nombre"><br>
+      Foto: <input type="file" name="foto" accept="image/*"><br>
+      <input type="button" value="Añadir" onclick="addPersona()"></input>
+      <input type="reset" value="Limpiar" />
+    </form>
+    </div>
+  </div>
+
+  <div data-role="page" data-dialog="true" id="pageNewGasto">
+    <div data-role="header">
+      <h2>Añadir Pago</h2>
+    </div>
+    <div data-role="main" class="ui-content">
+    <form id="newGasto">
+      Concepto: <br><input type="text" name="concepto"><br>
+      Importe: <br><input type="text" name="importe"><br>
+      Persona: <br><input list="personas" name="persona">
+      <datalist id="personas">
+        <option value="Fran"></option>
+        <option value="Irene"></option>
+        <option value="Merche"></option>
+      </datalist><br>
+      <input type="button" value="Añadir" onclick="addGasto()"></input>
+      <input type="reset" value="Limpiar" />
+    </form>
+    </div>
+  </div>
+
+  <div data-role="page" data-dialog="true" id="pageAbout">
+    <div data-role="header">
+      <h2>Sobre Tripy</h2>
+    </div>
+    <div data-role="main" class="ui-content">
+    <address>
+    Written by <a href="mailto:frangoro@gmail.com">frangoro &copy;</a>
+    Ubrique (Spain)
+    </address>
+    </div>
+  </div>
+
+  </body>
 </html>

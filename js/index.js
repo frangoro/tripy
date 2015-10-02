@@ -16,6 +16,12 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+var db = null;
+// Variable global que lleva las deudas y las personas
+var deudasArray = [];
+// Global var for double backbutton in less than one second
+var dblBackButton = 0;
+
 var app = {
     // SQLite database instance
     db: null,
@@ -35,29 +41,60 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        //app.receivedEvent('deviceready');
         app.openSQLiteDatabase();
-        showGastos();
-        deudas();
-    },
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
-
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
-
-        console.log('Received Event: ' + id);
+        document.addEventListener("backbutton", handleBackButton, false);
     },
     // Open database if exist other case create it
     openSQLiteDatabase: function() {
-        //db = window.sqlitePlugin.openDatabase({ name: 'tripy.db', createFromLocation:1 }, op);
-        db = window.sqlitePlugin.openDatabase({ name: 'tripy2.db' }, app.createTableGasto);
-    },
+        db = window.sqlitePlugin.openDatabase({ name: 'tripy.db', createFromLocation:1 }, function() {
+            /*$("body").pagecontainer("load", "personas.html#pagePersonas", { transition: 'flip',
+            changeHash: false,
+            reverse: true,
+            showLoadMsg: true 
+            });*/
+            deudas();
+            showPersonas();
+            $("#pageGastos").on("pageshow", function() {
+                //alert('Cambia a pageGastos');
+                showGastos();
+            });
+            $("#pagePersonas").on("pageshow", function() {
+                //alert('Cambia a pagePersonas');
+                showPersonas();
+            });
+            $("#pageDeudas").on("pageshow", function() {
+                deudas();
+            });
+            $("#pageEventos").on("pageshow", function() {
+                showEventos();
+            });
+            // Desplaza a la página de la derecha
+            $(window).on("swipeleft",function(){
+                //$(this).pagecontainer("getActivePage");
+                if ($.mobile.activePage.next('[data-role=page]').length != 0) {
+                    var next = '#' + $.mobile.activePage.next('[data-role=page]')[0].id;
+                    $.mobile.changePage(next, {
+                       transition: 'slide'
+                    });
+                }
+            });
+            $(window).on("swiperight",function(){
+                //$(this).pagecontainer("getActivePage");
+                if ($.mobile.activePage.prev('[data-role=page]').length != 0) {
+                    var prev = '#' + $.mobile.activePage.prev('[data-role=page]')[0].id;
+                    $.mobile.changePage(prev, {
+                       transition: 'slide'
+                    });
+                }
+            }); 
+        });
+        //showPersonas();
+        //db = window.sqlitePlugin.openDatabase({ name: 'tripy2.db' }, app.createTables);
+    }
+    //TODO: Borrar cuando pueda asegurar que funciona bien usar una bd existente (despues de probar instalar archivo apk en un móvil)
+    /*,
     // Create table Gasto
-    createTableGasto: function() {
+    createTables: function() {
         db.transaction(function(transaction) {
             transaction.executeSql('CREATE ' +
                        'TABLE IF NOT EXISTS ' +
@@ -69,8 +106,52 @@ var app = {
                       console.log("Error occurred while creating the table Gasto.");
                 });
             });
-    }
-    
+        db.transaction(function(transaction) {
+            transaction.executeSql('CREATE ' +
+                       'TABLE IF NOT EXISTS ' +
+                       'persona (id integer primary key, nombre TEXT, foto BLOB)', [],
+                function(tx, result) {
+                    console.log("Table persona created successfully.");
+                }, 
+                function(error) {
+                      console.log("Error occurred while creating the table persona.");
+                });
+            });
+    }*/
 };
 
-app.initialize();
+/*document.addEventListener("onload", function() {
+    app.initialize();
+    alert('DOM loaded');
+}, false);
+
+document.onload = function() {
+    console.log('entra onload');
+    app.initialize();
+    console.log('sale onload');
+}*/
+
+$(document).on("mobileinit",function() {
+    $.mobile.autoInitializePage = false;
+});
+
+$(document).ready(function(){
+    window.location.hash = 'pagePersonas';
+    $.mobile.initializePage();
+    console.log('entra onload');
+    app.initialize();
+    console.log('sale onload');
+});
+
+// Control botón retroceso. La pestaña principal sale siempre 
+// de la aplicación
+function handleBackButton(e) {
+    if($.mobile.activePage.is('#pagePersonas') || 1000 > e.timeStamp - dblBackButton){
+       e.preventDefault();
+       navigator.app.exitApp();
+   }
+   else {
+       dblBackButton = e.timeStamp;
+       navigator.app.backHistory();
+   }
+}

@@ -76,13 +76,10 @@ function clearFormGasto() {
 // the application tables
 function showGastos() {
     var importeMinimo = 0;
-    // Clean table
     var table = document.getElementById("myTable");
-    for (var i = 1; i < table.rows.length; i++) {
-        table.deleteRow(i);
-    }
     // Retrieve rows and put it in the table
     db.executeSql("select * from gasto where importe > ?", [importeMinimo], function (res) {
+        var tbody = document.createElement('tbody');
         for (var i = 0; i < res.rows.length; i++) {
             var concepto = res.rows.item(i).concepto;
             var importe = res.rows.item(i).importe;
@@ -92,11 +89,13 @@ function showGastos() {
             console.log('importe: ' + importe);
             console.log('persona: ' + persona);
             console.log('fecha: ' + fecha);
-            var row = table.insertRow();
+            var row = tbody.insertRow(0);
             row.insertCell(0).innerHTML= concepto;
             row.insertCell(1).innerHTML= importe;
             row.insertCell(2).innerHTML= persona;
             row.insertCell(3).innerHTML= fecha;
         }
+        table.replaceChild(tbody,table.children[1]);
     });
 }
+

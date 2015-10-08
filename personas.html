@@ -1,0 +1,65 @@
+<div data-role="page" id="pagePersonas">
+<div data-role="header" data-position="fixed">
+  <a href="#pageAbout"><img src="img/world.png" alt="Acerca de Tripy" title="Acerca de Tripy..." style="width:16px;height:16px;"></a>
+  <h1>Tripy</h1>
+  <a href="#setting" class="ui-btn ui-icon-gear ui-btn-icon-notext ">settings</a>
+  <div data-role="navbar">
+		<ul>
+		  <li><a href="viajes.html">Viajes</a></li>
+          <li><a href="#" class="ui-btn-active ui-state-persist">Participantes</a></li>
+          <li><a href="gastos.html">Pagos</a></li>
+          <li><a href="deudas.html">Deudas</a></li>
+          <li><a href="estadisticas.html">Estadísticas</a></li>
+		</ul>
+  </div>
+</div>
+<div data-role="main">
+  <h2>Clasificación aportaciones</h2>
+    <ul data-role="listview" id="participantesList">
+    <!--<li>
+      <a href="#"><img src="img/logo.png"><h3 class="listViewName">Pepito Grillo</h3><h3 class="listViewTotal">30€</h3></a>
+      <a href="#pageInfoParticipante" data-transition="pop" data-icon="info"></a> 
+    </li>-->
+  </ul>
+</div>
+<div data-role="footer">
+  <div data-role="controlgroup" data-type="horizontal" class="ui-btn-right">
+      <a href="#pageNewParticipante" class="ui-btn ui-icon-plus ui-btn-icon-notext">plus</a>
+      <a href="#" class="ui-btn ui-icon-search ui-btn-icon-notext">search</a>
+  </div>
+</div>
+</div>
+
+<div data-role="page" data-dialog="true" id="pageInfoParticipante">
+<div data-role="header">
+  <h2>Ficha Participante</h2>
+</div>
+<div data-role="main" class="ui-content">
+</div>
+</div>
+
+<div data-role="page" data-dialog="true" id="pageNewParticipante">
+<div data-role="header">
+  <h2>Añadir Participante</h2>
+</div>
+<div data-role="main" class="ui-content">
+<form id="newPersona">
+  Nombre: <br><input type="text" name="nombre"><br>
+  Foto: <input type="file" name="foto" accept="image/*"><br>
+  <input type="button" value="Añadir" onclick="addPersona()"></input>
+  <input type="reset" value="Limpiar" />
+</form>
+</div>
+</div>
+
+<div data-role="page" data-dialog="true" id="pageAbout">
+<div data-role="header">
+  <h2>Sobre Tripy</h2>
+</div>
+<div data-role="main" class="ui-content">
+<address>
+Written by <a href="mailto:frangoro@gmail.com">frangoro &copy;</a>
+Ubrique (Spain)
+</address>
+</div>
+</div>

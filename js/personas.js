@@ -1,0 +1,70 @@
+/* Personas (Participantes) functions */
+
+function showPersonas() {
+	console.log("Entra en showPersonas.");
+	db.transaction(function(transaction){
+		transaction.executeSql("SELECT * FROM persona", [], 
+			function(tx, result){
+				$("#participantesList").empty();
+				for (var i = 0; i < result.rows.length; i++) {
+					deuda = deudaByNombre(result.rows.item(i).nombre);
+					if (result.rows.item(i).foto) {
+						$("#participantesList").append('<li><a href=""><img src="'+result.rows.item(i).foto+'"/>' + result.rows.item(i).nombre + '<p>'+deuda+'</p></a></li>');
+					} else {
+						$("#participantesList").append('<li><a href=""><img src="img/Unknown-person.gif"/>' + result.rows.item(i).nombre + '<p>'+deuda+'</p></a></li>');
+					}
+					$("#participantesList").append('<a href="#pageInfoParticipante" data-transition="pop" data-icon="info"></a>');
+				}
+				$("#participantesList").listview("refresh");
+		}, function(error){
+			console.log("Error en la consulta de viajes.");
+		});
+	});
+}
+
+function addPersona() {
+    var nombre = document.getElementById("newPersona").elements.namedItem("nombre").value;
+    var fotoURL = document.getElementById("newPersona").elements.namedItem("foto").files[0];
+    var reader = new FileReader();
+    var fotoData;
+    reader.onloadend = function() {
+    	if(reader.error) {
+            console.log(reader.error);
+        } 
+        //else {
+    	fotoData = reader.result;
+	    addPersonaAux(nombre, fotoData);
+		//}
+    }
+    if (fotoURL) {
+		reader.readAsDataURL(fotoURL);
+    } else {
+      fotoData = null;
+      addPersonaAux(nombre, fotoData)
+    }
+}
+
+function addPersonaAux(nombre, fotoData) {
+  db.transaction(function(transaction){
+    transaction.executeSql("insert into persona (nombre,foto) values (?,?)", [nombre, fotoData], 
+	    function (res) {
+	        //TODO: actualización automática: con data bindind o llamando a una función de refresco?
+	        showPersonas();
+	        document.getElementById("newPersona").reset();
+	    },
+	    function(error){
+	        alert("Error añadiendo persona");
+	    });
+  })
+}
+
+// Busca la deuda de una persona en deudasArray dada una persona
+function deudaByNombre(nombrePersona) {
+	for (var i = deudasArray.length - 1; i >= 0; i--) {
+		if (deudasArray[i].persona == nombrePersona) {
+			return deudasArray[i].deuda;
+		};
+	};
+	return 0;
+}
+

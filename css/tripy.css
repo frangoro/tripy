@@ -1,0 +1,10 @@
+/* Custom styles for Tripy */
+
+.listViewTotal {
+    float: right;
+    font-size: large;
+}
+
+.listViewName {
+	float: left;
+}

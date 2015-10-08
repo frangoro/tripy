@@ -77,7 +77,7 @@
   </div>
   <div data-role="footer">
       <div data-role="controlgroup" data-type="horizontal" class="ui-btn-right">
-        <a href="#pageNewEvento" class="ui-btn ui-icon-plus ui-btn-icon-notext">plus</a>
+        <a href="#pageNewEvento" class="ui-btn ui-icon-plus ui-btn-icon-notext" data-transition="pop" data-rel="dialog">plus</a>
         <a href="#" class="ui-btn ui-icon-search ui-btn-icon-notext">search</a>
       </div>
   </div>
@@ -205,7 +205,7 @@
   </div>
   </div>
 
-  <div data-role="page" data-dialog="true" id="pageNewEvento">
+  <div data-role="page" id="pageNewEvento">
     <div data-role="header">
       <h2>Añadir Evento</h2>
     </div>
@@ -215,7 +215,7 @@
       Lugar: <br><input type="text" name="lugar"><br>
       Presupuesto Inicial: <br><input type="number" name="presupuestoInicio" min="0" max="10000"><br>
       Presupuesto Final: <br><input type="number" name="presupuestoFin" min="0" max="10000"><br>
-      <input type="button" value="Añadir" onclick="addEvento()"></input>
+      <a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all" onclick="addEvento()">Añadir</a>
       <input type="reset" value="Limpiar" />
     </form>
     </div>

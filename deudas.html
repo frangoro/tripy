@@ -1,0 +1,28 @@
+<!-- Participantes page. It's loaded via AJAX powered by JQuery Mobile -->
+
+<div data-role="page" id="pageDeudas">
+<div data-role="header" data-position="fixed">
+  <a href="about.html"><img src="img/world.png" alt="Acerca de Tripy" title="Acerca de Tripy..." style="width:16px;height:16px;"></a>
+  <h1>Tripy</h1>
+    <a href="#setting" class="ui-btn ui-icon-gear ui-btn-icon-notext ">settings</a>
+  <div data-role="navbar">
+		<ul>
+		  <li><a href="viajes.html">Viajes</a></li>
+      <li><a href="index.html">Participantes</a></li>
+      <li><a href="pagos.html">Pagos</a></li>
+      <li><a href="#" class="ui-btn-active ui-state-persist">Deudas</a></li>
+      <li><a href="estadisticas.html">Estadísticas</a></li>
+		</ul>
+  </div>
+</div>
+<div data-role="main">
+	  <h2>Deudas</h2>
+    <ul data-role="listview" id="deudasList">
+	  </ul>
+</div>
+<div data-role="footer" data-position="fixed" data-fullscreen="false">
+	  <div data-role="controlgroup" data-type="horizontal" class="ui-btn-right">
+      <a href="#" class="ui-btn ui-icon-search ui-btn-icon-notext">search</a>
+	  </div>
+</div>
+</div>

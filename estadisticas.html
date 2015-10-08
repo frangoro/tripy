@@ -1,0 +1,46 @@
+<!-- Participantes page. It's loaded via AJAX powered by JQuery Mobile -->
+
+<div data-role="page" id="pagePersonas">
+<div data-role="header" data-position="fixed">
+  <a href="about.html"><img src="img/world.png" alt="Acerca de Tripy" title="Acerca de Tripy..." style="width:16px;height:16px;"></a>
+  <h1>Tripy</h1>
+    <a href="#setting" class="ui-btn ui-icon-gear ui-btn-icon-notext ">settings</a>
+  <div data-role="navbar">
+		<ul>
+		  <li><a href="viajes.html">Viajes</a></li>
+      <li><a href="index.html">Participantes</a></li>
+      <li><a href="pagos.html">Pagos</a></li>
+      <li><a href="deudas.html">Deudas</a></li>
+      <li><a href="#" class="ui-btn-active ui-state-persist">Estadísticas</a></li>
+		</ul>
+  </div>
+</div>
+<div data-role="main">
+	  <h2>Estadísticas</h2>
+    <ul data-role="listview">
+	    <li></li>
+	  </ul>
+</div>
+<div data-role="footer" data-position="fixed" data-fullscreen="false">
+	  <div data-role="controlgroup" data-type="horizontal" class="ui-btn-right">
+      <a href="#pageNewParticipante" class="ui-btn ui-icon-plus ui-btn-icon-notext">plus</a>
+      <a href="#" class="ui-btn ui-icon-search ui-btn-icon-notext">search</a>
+	  </div>
+</div>
+</div>
+
+<div data-role="page" data-dialog="true" id="pageNewViaje">
+  <div data-role="header">
+    <h2>Añadir Viaje</h2>
+  </div>
+  <div data-role="main" class="ui-content">
+  <form id="newViaje">
+	  Título: <br><input type="text" name="titulo"><br>
+	  Lugares: <br><input type="text" name="lugares"><br>
+	  Inicio: <br><input type="date" name="fechaInicio"><br>
+	  Fin: <br><input type="date" name="fechaFin"><br>
+	  <input type="button" value="Añadir" onclick="addViaje()"></input>
+	  <input type="reset" value="Limpiar" />
+  </form>
+  </div>
+</div>

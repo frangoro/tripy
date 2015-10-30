@@ -36,3 +36,23 @@ function addEvento() {
         alert("Error añadiendo el evento con título: " + titulo);
     });
 }
+
+function setCurrentEvent(currentEventId) {
+    db.transaction(function(transaction){
+        transaction.executeSql("SELECT DISTINCT * FROM evento WHERE id = ?", [currentEventId], 
+            function(tx, result){
+                if(result.rows.length == 0) {
+                    // Go to page events because create at least one event is needed
+                    currentEvent = null;
+                    $.mobile.changePage("#pageEventos", {
+                       transition: 'slide'
+                    });
+                    return -1;
+                }
+                currentEvent = result.rows.item(0);
+            },
+            function(error){
+                console.log("Error setting default event.");
+            });
+    });
+}

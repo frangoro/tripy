@@ -16,11 +16,16 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+ /* Global vars */
+// Global var for data base object
 var db = null;
 // Variable global que lleva las deudas y las personas
 var deudasArray = [];
 // Global var for double backbutton in less than one second
 var dblBackButton = 0;
+// Current active event
+var currentEvent = null;
 
 var app = {
     // SQLite database instance
@@ -54,6 +59,7 @@ var app = {
             });*/
             deudas();
             showPersonas();
+            setCurrentEvent(1); // Set default event
             $("#pageGastos").on("pageshow", function() {
                 //alert('Cambia a pageGastos');
                 showGastos();

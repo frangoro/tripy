@@ -7,10 +7,13 @@ function showEventos() {
 				$("#eventosList").empty();
 				for (var i = 0; i < result.rows.length; i++){
 					var item = result.rows.item(i);
-					$("#eventosList").append('<li><a href="">' + item.titulo + '</a></li>').append(
+                    $("#eventosList").on("click","li", function(){
+                            setCurrentEvent(this.id);
+                    });
+					$("#eventosList").append('<li id="'+item.id+'"><a href="">' + item.titulo + '</a></li>').append(
 						'<a href="#pageInfoEvento" data-transition="pop" data-icon="info"></a>');
 				}
-				$("#eventosList").listview("refresh");
+                $("#eventosList").listview("refresh");
 		}, function(error){
 			console.log("Error en la consulta de eventos.");
 		});
@@ -37,6 +40,8 @@ function addEvento() {
     });
 }
 
+/* Set current event in order to every involved operation knows
+what event have to be affected */
 function setCurrentEvent(currentEventId) {
     db.transaction(function(transaction){
         transaction.executeSql("SELECT DISTINCT * FROM evento WHERE id = ?", [currentEventId], 
@@ -49,7 +54,14 @@ function setCurrentEvent(currentEventId) {
                     });
                     return -1;
                 }
+                // Set the currentEvent var
                 currentEvent = result.rows.item(0);
+                // Change the app title
+                setTitle(currentEvent.titulo);
+                // Change to the page Personas
+                $.mobile.changePage("#pagePersonas", {
+                    transition: 'slide'
+                });
             },
             function(error){
                 console.log("Error setting default event.");

@@ -148,16 +148,3 @@ $(document).ready(function(){
     app.initialize();
     console.log('sale onload');
 });
-
-// Control botón retroceso. La pestaña principal sale siempre 
-// de la aplicación
-function handleBackButton(e) {
-    if($.mobile.activePage.is('#pagePersonas') || 1000 > e.timeStamp - dblBackButton){
-       e.preventDefault();
-       navigator.app.exitApp();
-   }
-   else {
-       dblBackButton = e.timeStamp;
-       navigator.app.backHistory();
-   }
-}

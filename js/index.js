@@ -58,8 +58,8 @@ var app = {
             showLoadMsg: true 
             });*/
             deudas();
-            showPersonas();
             setCurrentEvent(1); // Set default event
+            showPersonas(1);
             $("#pageGastos").on("pageshow", function() {
                 //alert('Cambia a pageGastos');
                 showGastos();
@@ -92,7 +92,7 @@ var app = {
                        transition: 'slide'
                     });
                 }
-            }); 
+            });
         });
         //showPersonas();
         //db = window.sqlitePlugin.openDatabase({ name: 'tripy2.db' }, app.createTables);
@@ -137,10 +137,12 @@ document.onload = function() {
     console.log('sale onload');
 }*/
 
+//Hide the page until initializePage is called
 $(document).on("mobileinit",function() {
     $.mobile.autoInitializePage = false;
 });
 
+//Initialize page
 $(document).ready(function(){
     window.location.hash = 'pagePersonas';
     $.mobile.initializePage();

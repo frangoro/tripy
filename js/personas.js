@@ -1,9 +1,17 @@
 /* Personas (Participantes) functions */
 
-function showPersonas() {
+/* Show People in the Event */
+function showPersonas(eventId) {
 	console.log("Entra en showPersonas.");
+
+	// If eventId is not specified then use the current
+	if (!eventId && currentEvent) {
+		eventId = currentEvent.id;//TODO: eventId no se actualiza :S
+		console.log("Using event: " + currentEvent.titulo);
+	}
+
 	db.transaction(function(transaction){
-		transaction.executeSql("SELECT * FROM persona", [], 
+		transaction.executeSql("SELECT * FROM persona WHERE id IN (SELECT persona_fk FROM gasto WHERE evento_fk = ?)", [eventId], 
 			function(tx, result){
 				$("#participantesList").empty();
 				for (var i = 0; i < result.rows.length; i++) {
@@ -22,6 +30,7 @@ function showPersonas() {
 	});
 }
 
+/* Add a new person to People in the Event */
 function addPersona() {
     var nombre = document.getElementById("newPersona").elements.namedItem("nombre").value;
     var fotoURL = document.getElementById("newPersona").elements.namedItem("foto").files[0];

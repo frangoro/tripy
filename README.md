@@ -1,4 +1,4 @@
-# tripy
+# Tripy
 
 Sharing costs among a friend group.
 
